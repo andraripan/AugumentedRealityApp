@@ -20,8 +20,9 @@ object AppInjector : IAppInjector {
     override fun init(app: BaseApp): AppComponent {
         val appComponent = DaggerAppComponent.builder().application(app).build()
         appComponent.inject(app as App)
-        app.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks{
-            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+
+        app.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
+            override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
                 handleActivity(activity)
             }
 
@@ -41,7 +42,7 @@ object AppInjector : IAppInjector {
 
             }
 
-            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+            override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle?) {
 
             }
 
@@ -53,19 +54,15 @@ object AppInjector : IAppInjector {
         return appComponent
     }
 
-    private fun handleActivity(activity: Activity){
-        if(activity is HasSupportFragmentInjector){
+    private fun handleActivity(activity: Activity) {
+        if (activity is HasSupportFragmentInjector) {
             AndroidInjection.inject(activity)
         }
-        if(activity is FragmentActivity){
+        if (activity is FragmentActivity) {
             activity.supportFragmentManager
-                .registerFragmentLifecycleCallbacks(object: FragmentManager.FragmentLifecycleCallbacks() {
-                    override fun onFragmentCreated(
-                        fm: FragmentManager,
-                        f: Fragment,
-                        savedInstanceState: Bundle?
-                    ) {
-                        if(f is Injectable) {
+                .registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
+                    override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
+                        if (f is Injectable) {
                             AndroidSupportInjection.inject(f)
                         }
                     }

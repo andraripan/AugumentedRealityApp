@@ -10,19 +10,16 @@ import dagger.android.HasActivityInjector
 import javax.inject.Inject
 
 abstract class BaseApp : Application(), HasActivityInjector {
-
     @Inject
     lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Activity>
 
     override fun onCreate() {
         super.onCreate()
-        if(BuildConfig.DEBUG){
-            // TODO maybe add Timber
-        }
         appInjector().init(this)
     }
 
     override fun activityInjector(): AndroidInjector<Activity> = dispatchingActivityInjector
 
+    // Each app must provide it's own AppInjector so the Dagger tree is generated correctly
     abstract fun appInjector(): IAppInjector
 }

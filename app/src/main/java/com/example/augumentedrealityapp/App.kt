@@ -5,5 +5,5 @@ import com.example.base.base.BaseApp
 import com.example.base.base.di.util.IAppInjector
 
 class App: BaseApp() {
-    override fun appInjector(): IAppInjector = AppInjector
+    override fun appInjector() = AppInjector
 }

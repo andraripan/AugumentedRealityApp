@@ -1,3 +1,2 @@
-include ':base'
-include ':app'
+include ':app',':base'
 rootProject.name = "AugumentedRealityApp"
